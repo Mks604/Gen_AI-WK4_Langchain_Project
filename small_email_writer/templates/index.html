@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Email Writer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📧 Smart Email Writer</h1>
+
+    <textarea id="prompt" placeholder="Enter email topic..."></textarea>
+
+    <select id="tone">
+        <option>Formal</option>
+        <option>Casual</option>
+        <option>Friendly</option>
+        <option>Apology</option>
+        <option>Request</option>
+    </select>
+
+    <button onclick="generateEmail()">Generate Email</button>
+
+    <pre id="output"></pre>
+</div>
+
+<script>
+async function generateEmail() {
+    const prompt = document.getElementById("prompt").value;
+    const tone = document.getElementById("tone").value;
+
+    const res = await fetch("/generate", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({prompt, tone})
+    });
+
+    const data = await res.json();
+    document.getElementById("output").innerText = data.email;
+}
+</script>
+
+</body>
+</html>
